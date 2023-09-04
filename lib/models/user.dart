@@ -25,7 +25,7 @@ class User extends Equatable {
 
   String getAadhar({bool masked = true, bool format = false}) {
     var aadhar = aadharNo;
-    if (masked) aadhar = aadhar.substring(8).padLeft(8, 'X');
+    if (masked) aadhar = aadhar.substring(8).padLeft(12, 'X');
     if (format) aadhar = '${aadhar.substring(0, 4)} ${aadhar.substring(4, 8)} ${aadhar.substring(8)}';
     return aadhar;
   }
@@ -48,9 +48,9 @@ class User extends Equatable {
 
     return User(
       name: map['name'],
-      phoneNumber: map['phone'],
+      phoneNumber: map['phone'] ?? 'XXXXXXXXXX',
       aadharNo: map['aadhar'] ?? 'XXXX XXXX XXXX',
-      pinCode: map['pincode'],
+      pinCode: map['pincode'] ?? 0,
       age: map['age'] ?? 0,
       isAdmin: map['role'] == 0,
       status: VaccinationStatus.fromStatus(map['status']),

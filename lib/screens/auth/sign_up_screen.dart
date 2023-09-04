@@ -65,10 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Hero(
-          tag: signUpTitleTag,
-          child: Text("SIGN UP"),
-        ),
+        title: const Text("SIGN UP"),
       ),
       body: SafeArea(
         child: Padding(
@@ -199,15 +196,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         if (state is! AuthLoading)
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 36),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
+                          Hero(
+                            tag: signUpTitleTag,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 36),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
                               ),
+                              onPressed: _onSignUpClicked,
+                              child: const Text("SIGN UP"),
                             ),
-                            onPressed: _onSignUpClicked,
-                            child: const Text("SIGN UP"),
                           )
                       ],
                     );

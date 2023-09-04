@@ -1,4 +1,5 @@
 import 'package:arogyam/app/app_routes.dart';
+import 'package:arogyam/bloc/admin/admin_bloc.dart';
 import 'package:arogyam/bloc/auth/auth_bloc.dart';
 import 'package:arogyam/bloc/slots/slot_list_bloc.dart';
 import 'package:arogyam/bloc/splash/splash_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:arogyam/bloc/user/user_bloc.dart';
 import 'package:arogyam/bloc/user/user_event.dart';
 import 'package:arogyam/bloc/user/user_state.dart';
 import 'package:arogyam/data/SlotRepository.dart';
+import 'package:arogyam/data/admin_repository.dart';
 import 'package:arogyam/data/auth_repository.dart';
 import 'package:arogyam/data/user_repository.dart';
 import 'package:arogyam/res/app_theme.dart';
@@ -62,12 +64,12 @@ class RunoArogyamApp extends StatelessWidget {
             child: const SlotListScreen(),
           );
         },
-        // AppRoutes.adminHome: (context) {
-        //   return BlocProvider<AuthBloc>(
-        //     create: (context) => Admi(),
-        //     child: const AdminDashboardScreen(),
-        //   );
-        // },
+        AppRoutes.adminHome: (context) {
+          return BlocProvider<AdminBloc>(
+            create: (context) => AdminBloc(const AdminRepository()),
+            child: const AdminDashboardScreen(),
+          );
+        },
       },
     );
   }

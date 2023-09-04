@@ -42,6 +42,28 @@ class ApiHelper {
     return http.get(url);
   }
 
+  static Future<http.Response> fetchSlotListForAdmin(String day) async {
+    final headers = <String, String>{};
+    final authHeader = await PreferencesHelper.generateAuthHeader();
+    if (authHeader != null) headers['Authorization'] = authHeader;
+
+    final url = Uri.https(_authority, '$_basePath/admin/listSlots/$day');
+    return http.get(url, headers: headers);
+  }
+
+  static Future<http.Response> fetchUserListForAdmin(
+    Map<String, dynamic>? filters,
+  ) async {
+
+    debugPrint("fetchUserListForAdmin: $filters");
+    final headers = <String, String>{};
+    final authHeader = await PreferencesHelper.generateAuthHeader();
+    if (authHeader != null) headers['Authorization'] = authHeader;
+
+    final url = Uri.https(_authority, '$_basePath/admin/listUsers', filters);
+    return http.get(url, headers: headers);
+  }
+
   static Future<http.Response> refreshUserSlots() async {
     final headers = <String, String>{};
     final authHeader = await PreferencesHelper.generateAuthHeader();
@@ -74,14 +96,17 @@ class ApiHelper {
     debugPrint("manageSlot($operation): body => $body");
     debugPrint("manageSlot($operation): encoded body => $encodedBody");
 
-
-
     return switch (operation) {
-      ManageSlotOperation.delete =>
-        http.delete(uri, headers: headers, body: encodedBody),
-      ManageSlotOperation.create ||
-      ManageSlotOperation.update =>
-        http.post(uri, body: encodedBody, headers: headers),
+      ManageSlotOperation.delete => http.delete(
+          uri,
+          headers: headers,
+          body: encodedBody,
+        ),
+      ManageSlotOperation.create || ManageSlotOperation.update => http.post(
+          uri,
+          body: encodedBody,
+          headers: headers,
+        ),
     };
   }
 }

@@ -65,10 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Hero(
-          tag: signInTitleTag,
-          child: Text("SIGN IN"),
-        ),
+        title: const Text("SIGN IN"),
       ),
       body: SafeArea(
         child: Padding(
@@ -76,54 +73,56 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Form(
             key: _formKey,
             child: BlocConsumer<AuthBloc, AuthState?>(
-                listener: _listener,
-                builder: (context, state) {
-                  return Column(
-                    children: [
-                      TextFormField(
-                        maxLength: 10,
-                        controller: _phoneController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: FormInputFieldValidator.compose([
-                          FormInputFieldValidator.required(),
-                          FormInputFieldValidator.minLength(minLength: 3),
-                          FormInputFieldValidator.maxLength(maxLength: 10),
-                        ]),
-                        keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                          isDense: true,
-                          prefixText: "+91 ",
-                          prefixIconConstraints: BoxConstraints(
-                            minWidth: 0,
-                            minHeight: 0,
-                          ),
-                          labelText: 'Phone Number',
+              listener: _listener,
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    TextFormField(
+                      maxLength: 10,
+                      controller: _phoneController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormInputFieldValidator.compose([
+                        FormInputFieldValidator.required(),
+                        FormInputFieldValidator.minLength(minLength: 3),
+                        FormInputFieldValidator.maxLength(maxLength: 10),
+                      ]),
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        prefixText: "+91 ",
+                        prefixIconConstraints: BoxConstraints(
+                          minWidth: 0,
+                          minHeight: 0,
+                        ),
+                        labelText: 'Phone Number',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      obscureText: true,
+                      controller: _passwordController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormInputFieldValidator.compose([
+                        FormInputFieldValidator.required(),
+                      ]),
+                      onSaved: (value) {},
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        labelText: 'Password',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    if (state is AuthLoading)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        obscureText: true,
-                        controller: _passwordController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: FormInputFieldValidator.compose([
-                          FormInputFieldValidator.required(),
-                        ]),
-                        onSaved: (value) {},
-                        decoration: const InputDecoration(
-                          isDense: true,
-                          labelText: 'Password',
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      if (state is AuthLoading)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      if (state is! AuthLoading)
-                        OutlinedButton(
+                    if (state is! AuthLoading)
+                      Hero(
+                        tag: signInTitleTag,
+                        child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 36),
                             shape: RoundedRectangleBorder(
@@ -132,10 +131,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           onPressed: _onSignInClicked,
                           child: const Text("SIGN IN"),
-                        )
-                    ],
-                  );
-                }),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

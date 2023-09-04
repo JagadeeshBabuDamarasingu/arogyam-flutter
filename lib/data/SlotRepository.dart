@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:arogyam/bloc/user/user_state.dart';
 import 'package:arogyam/data/api_helper.dart';
+import 'package:arogyam/data/preference_helper.dart';
 import 'package:arogyam/models/slot.dart';
 import 'package:flutter/foundation.dart';
 
@@ -21,7 +22,11 @@ class SlotRepository {
       throw ApiHelper.getApiException(response);
     }
 
-    return jsonDecode(response.body)['message'];
+    final decodedResponse = jsonDecode(response.body);
+    final slots = (decodedResponse['updatedSlots'] ?? []) as List<dynamic>;
+    await PreferencesHelper.updateUserSlot(slots.map((e) => e as String).toList(growable: false));
+
+    return decodedResponse['message'];
   }
 
   Future<List<Slot>> fetchSlotsByDate(String date) async {
@@ -33,9 +38,14 @@ class SlotRepository {
     }
 
     final slotMap = jsonDecode(response.body)[date] as List<dynamic>?;
-    return (slotMap ?? [])
-        .map((e) =>
-            Slot.fromSlotId(e.keys.first, dosesRemaining: e.values.first))
-        .toList(growable: false);
+    debugPrint("slotMap: $slotMap");
+    slotMap?.forEach((element) {
+      debugPrint('slot might be: $element');
+    });
+    return (slotMap ?? []).map((slotEntry) {
+      final slotId = slotEntry.keys.first;
+      final availableDoses = slotEntry[slotId]['availableDoses'] ?? 10;
+      return Slot.fromSlotId(slotId, dosesRemaining: availableDoses);
+    }).toList(growable: false);
   }
 }

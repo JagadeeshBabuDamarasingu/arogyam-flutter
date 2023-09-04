@@ -1,15 +1,37 @@
 part of 'admin_bloc.dart';
 
-abstract class AdminState extends AppState {
-  const AdminState();
-}
+class AdminState extends AppState {
+  final bool slotLoading;
+  final bool userLoading;
+  final List<Slot>? slotList;
+  final List<User>? userList;
 
-class SlotListLoading extends AdminState {
-  const SlotListLoading();
-}
+  @override
+  List<Object?> get props => [
+        slotLoading,
+        userLoading,
+        slotList,
+        userList,
+      ];
 
-class OnSlotListLoaded extends AdminState {
-  final List<Slot> slotList;
+  const AdminState({
+    this.slotLoading = false,
+    this.userLoading = false,
+    this.slotList,
+    this.userList,
+  });
 
-  const OnSlotListLoaded({required this.slotList});
+  copyFrom({
+    bool? slotLoading,
+    bool? userLoading,
+    List<Slot>? slotList,
+    List<User>? userList,
+  }) {
+    return AdminState(
+      slotLoading: slotLoading ?? this.slotLoading,
+      userLoading: userLoading ?? this.userLoading,
+      slotList: slotList ?? this.slotList,
+      userList: userList ?? this.userList,
+    );
+  }
 }

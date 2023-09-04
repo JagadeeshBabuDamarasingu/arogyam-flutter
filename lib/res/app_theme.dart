@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 final appTheme = ThemeData(
   useMaterial3: true,
-  primarySwatch: Colors.blue,
+  primarySwatch: Colors.purple,
   textTheme: GoogleFonts.robotoTextTheme(),
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),

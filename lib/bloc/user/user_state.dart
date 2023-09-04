@@ -13,6 +13,7 @@ class UserDetailsLoading extends UserState {
   final String? message;
 
   const UserDetailsLoading({
+    // this.isLoading = true,
     this.message = "Loading your slot details, please wait",
   });
 }
@@ -26,6 +27,15 @@ class UserDetailsLoaded extends UserState {
     this.isAdmin = false,
   });
 }
+
+// class UserError extends UserState {
+//   final String message;
+//
+//   @override
+//   List<Object?> get props => [message];
+//
+//   const UserError({required this.message});
+// }
 
 // class OnManageSlotResponse extends UserState {
 //   final String message;

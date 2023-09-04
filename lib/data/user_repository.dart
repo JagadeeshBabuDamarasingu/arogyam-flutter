@@ -29,7 +29,11 @@ class UserRepository {
       throw ApiHelper.getApiException(response);
     }
 
-    return jsonDecode(response.body)['message'];
+    final decodedResponse = jsonDecode(response.body);
+    final slots = (decodedResponse['updatedSlots'] ?? []) as List<dynamic>;
+    await PreferencesHelper.updateUserSlot(slots.map((e) => e as String).toList(growable: false));
+
+    return decodedResponse['message'];
   }
 
   Future<List<Slot>> fetchSlotList({refresh = false}) async {

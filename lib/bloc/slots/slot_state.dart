@@ -1,5 +1,4 @@
 import 'package:arogyam/bloc/app_state.dart';
-import 'package:arogyam/bloc/user/user_state.dart';
 import 'package:arogyam/models/slot.dart';
 
 sealed class SlotState extends AppState {
@@ -14,6 +13,12 @@ class SlotListLoaded extends SlotState {
   final List<Slot> slotList;
 
   const SlotListLoaded({required this.slotList});
+}
+
+class ManageSlotLoading extends SlotState {
+  final String message;
+
+  const ManageSlotLoading({required this.message});
 }
 
 class OnManageSlotResponse extends SlotState {

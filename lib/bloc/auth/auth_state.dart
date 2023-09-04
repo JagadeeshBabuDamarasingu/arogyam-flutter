@@ -1,7 +1,7 @@
 import 'package:arogyam/bloc/app_state.dart';
 import 'package:arogyam/models/user.dart';
 
-abstract class AuthState extends AppState {
+sealed class AuthState extends AppState {
   const AuthState();
 }
 

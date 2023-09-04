@@ -20,6 +20,7 @@ class _SlotListScreenState extends State<SlotListScreen> {
   late var args = <String, dynamic>{};
   late final String slotDate = args['date'];
   late final bool isEditMode = args['oldSlotDate'] != null;
+  late final localizations = MaterialLocalizations.of(context);
 
   final _selectedSlotNotifier = ValueNotifier<Slot?>(null);
 
@@ -30,7 +31,7 @@ class _SlotListScreenState extends State<SlotListScreen> {
     context.read<SlotListBloc>().add(OnSlotListRequested(slotDate: slotDate));
   }
 
-  String _formatDate(MaterialLocalizations localizations, String date) {
+  String _formatDate(String date) {
     return localizations.formatMediumDate(
       DateTime(
         int.parse(date.substring(0, 4)),
@@ -74,10 +75,15 @@ class _SlotListScreenState extends State<SlotListScreen> {
     );
   }
 
-  _renderLoadingProgressIndicator() {
-    return const Center(
-      child: CircularProgressIndicator(
-        strokeWidth: 2,
+  _renderLoadingProgressIndicator({String? message}) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const CircularProgressIndicator(strokeWidth: 2),
+          const SizedBox(height: 12),
+          if (message != null) Text(message, style: GoogleFonts.raleway())
+        ],
       ),
     );
   }
@@ -109,9 +115,14 @@ class _SlotListScreenState extends State<SlotListScreen> {
 
   _renderBody(SlotState state) {
     return switch (state) {
-      SlotListLoading() => _renderLoadingProgressIndicator(),
+      SlotListLoading() => _renderLoadingProgressIndicator(
+          message: "Loading slot details, please wait",
+        ),
       SlotListLoaded() => _renderSlotList(state.slotList),
       OnManageSlotResponse() => _renderSlotOperation(state.message),
+      ManageSlotLoading() => _renderLoadingProgressIndicator(
+          message: state.message,
+        ),
     };
   }
 
@@ -124,7 +135,7 @@ class _SlotListScreenState extends State<SlotListScreen> {
           ),
         ),
         onPressed: _bookSlot,
-        child: Text(isEditMode ? "EDIT" : "BOOK"),
+        child: Text(isEditMode ? "RESCHEDULE" : "SCHEDULE"),
       ),
       const SizedBox(width: 12)
     ];
@@ -132,11 +143,10 @@ class _SlotListScreenState extends State<SlotListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = MaterialLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 16,
-        title: Text(_formatDate(localizations, slotDate)),
+        title: Text(_formatDate(slotDate)),
         actions: _renderBookSlotButton(),
       ),
       body: SafeArea(

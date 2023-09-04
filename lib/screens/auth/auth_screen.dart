@@ -53,17 +53,17 @@ class _AuthScreenState extends State<AuthScreen> {
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 32),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+              child: Hero(
+                tag: signInTitleTag,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 32),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    side: const BorderSide(color: Colors.blue),
                   ),
-                  side: const BorderSide(color: Colors.blue),
-                ),
-                onPressed: _onSignInClicked,
-                child: Hero(
-                  tag: signInTitleTag,
+                  onPressed: _onSignInClicked,
                   child: Text(
                     "SIGN IN",
                     style: GoogleFonts.raleway(),
@@ -73,17 +73,17 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 32),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+              child: Hero(
+                tag: signUpTitleTag,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 32),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    side: const BorderSide(color: Colors.blue),
                   ),
-                  side: const BorderSide(color: Colors.blue),
-                ),
-                onPressed: _onSignUpClicked,
-                child: Hero(
-                  tag: signUpTitleTag,
+                  onPressed: _onSignUpClicked,
                   child: Text(
                     "SIGN UP",
                     style: GoogleFonts.raleway(),
